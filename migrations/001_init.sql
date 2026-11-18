@@ -14,3 +14,5 @@ CREATE TABLE IF NOT EXISTS submissions (
   answers_json JSONB NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS image_data TEXT;
