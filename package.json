@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build --webpack",
-    "migrate": "node scripts/migrate.mjs",
-    "start": "npm run migrate && next start -p ${PORT:-3000}"
+    "start": "next start -p ${PORT:-3000}"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.2.1",
