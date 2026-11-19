@@ -20,6 +20,12 @@ export function ensureSchema() {
       `ALTER TABLE questions ADD COLUMN IF NOT EXISTS image_url TEXT NOT NULL DEFAULT ''`,
     );
     await pool.query(
+      `DELETE FROM questions a USING questions b WHERE a.text=b.text AND a.id>b.id`,
+    );
+    await pool.query(
+      `CREATE UNIQUE INDEX IF NOT EXISTS questions_unique_text ON questions(text)`,
+    );
+    await pool.query(
       `CREATE TABLE IF NOT EXISTS submissions (id SERIAL PRIMARY KEY,student_name TEXT NOT NULL,score INTEGER NOT NULL,total INTEGER NOT NULL,answers_json JSONB NOT NULL,created_at TIMESTAMPTZ NOT NULL DEFAULT NOW())`,
     );
     const previousQuestions = [
@@ -35,8 +41,8 @@ export function ensureSchema() {
     for (const [text, options, correctIndex] of previousQuestions) {
       await pool.query(
         `INSERT INTO questions(text,options_json,correct_index,position,image_url)
-         SELECT $1,$2,$3,(SELECT COUNT(*) FROM questions),''
-         WHERE NOT EXISTS (SELECT 1 FROM questions WHERE text=$1)`,
+         VALUES($1,$2,$3,(SELECT COUNT(*) FROM questions),'')
+         ON CONFLICT(text) DO UPDATE SET options_json=EXCLUDED.options_json,correct_index=EXCLUDED.correct_index`,
         [text, JSON.stringify(options), correctIndex],
       );
     }
