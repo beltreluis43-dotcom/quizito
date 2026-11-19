@@ -1,7 +1,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
-export type Question={id:number;text:string;options:string[];correctIndex:number;position:number};
+export type Question={id:number;text:string;options:string[];correctIndex:number;position:number;imageUrl?:string};
 export type Submission={id:number;studentName:string;score:number;total:number;answers:{questionId:number;answer:number;correct:boolean}[];createdAt:string};
 type Store={questions:Question[];submissions:Submission[]};
 const file=process.env.QUIZ_DATA_FILE||path.join(process.cwd(),"data","quizito.json");
