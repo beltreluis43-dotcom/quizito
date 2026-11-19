@@ -738,14 +738,14 @@ function Results({ p }: { p: TP }) {
                   {r.score}/{r.total}
                 </td>
                 <td>
-                  <div className="flex gap-1">
+                  <div className="flex flex-wrap gap-1.5">
                     {r.answers.map((a, i) => {
                       const d = typeof a === "number" ? null : a,
                         v = typeof a === "number" ? a : a.answer;
                       return (
                         <span
                           key={i}
-                          className={`grid h-8 w-8 place-items-center rounded-lg ${d?.correct ? "bg-emerald-100" : "bg-rose-100"}`}
+                          className={`grid h-8 w-8 place-items-center rounded-lg border font-black shadow-sm ${d?.correct ? "border-emerald-300 bg-emerald-100 text-emerald-800" : "border-rose-300 bg-rose-100 text-rose-800"}`}
                         >
                           {v < 0 ? "—" : String.fromCharCode(65 + v)}
                         </span>
