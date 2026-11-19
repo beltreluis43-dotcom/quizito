@@ -212,6 +212,26 @@ button:not(:disabled):active { transform: scale(.98); }
 }
 .site-shell table tbody tr:hover { background-color: rgba(238,242,255,.55); }
 .dark .site-shell table tbody tr:hover { background-color: rgba(49,46,129,.22); }
+.dark .site-shell input,
+.dark .site-shell textarea {
+  background-color: #111827;
+  border-color: #475569;
+  color: #f8fafc;
+}
+.dark .site-shell input::placeholder,
+.dark .site-shell textarea::placeholder { color: #94a3b8; }
+.dark .site-shell input:focus,
+.dark .site-shell textarea:focus {
+  background-color: #111827;
+  border-color: #818cf8;
+  box-shadow: 0 0 0 4px rgba(129,140,248,.18);
+}
+.dark .site-shell input:disabled {
+  background-color: #263244 !important;
+  color: #f1f5f9 !important;
+  -webkit-text-fill-color: #f1f5f9;
+  opacity: 1;
+}
 
 @keyframes quizito-enter {
   from { opacity: 0; transform: translateY(8px); }
