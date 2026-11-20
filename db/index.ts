@@ -50,6 +50,35 @@ export function ensureSchema() {
       )`,
     );
     await pool.query(`CREATE INDEX IF NOT EXISTS teacher_sessions_expiry ON teacher_sessions(expires_at)`);
+    await pool.query(`CREATE TABLE IF NOT EXISTS teacher_quizzes (
+      id SERIAL PRIMARY KEY,
+      teacher_id INTEGER NOT NULL REFERENCES teacher_accounts(id) ON DELETE CASCADE,
+      title TEXT NOT NULL,
+      join_code TEXT NOT NULL UNIQUE,
+      time_seconds INTEGER NOT NULL DEFAULT 25,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )`);
+    await pool.query(`CREATE TABLE IF NOT EXISTS teacher_quiz_questions (
+      id SERIAL PRIMARY KEY,
+      quiz_id INTEGER NOT NULL REFERENCES teacher_quizzes(id) ON DELETE CASCADE,
+      text TEXT NOT NULL,
+      options_json JSONB NOT NULL,
+      correct_index INTEGER NOT NULL,
+      position INTEGER NOT NULL DEFAULT 0,
+      image_url TEXT NOT NULL DEFAULT '',
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )`);
+    await pool.query(`CREATE TABLE IF NOT EXISTS teacher_quiz_attempts (
+      id SERIAL PRIMARY KEY,
+      quiz_id INTEGER NOT NULL REFERENCES teacher_quizzes(id) ON DELETE CASCADE,
+      student_name TEXT NOT NULL,
+      score INTEGER NOT NULL,
+      total INTEGER NOT NULL,
+      answers_json JSONB NOT NULL,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )`);
+    await pool.query(`CREATE INDEX IF NOT EXISTS teacher_quiz_questions_quiz ON teacher_quiz_questions(quiz_id,position)`);
+    await pool.query(`CREATE INDEX IF NOT EXISTS teacher_quiz_attempts_quiz ON teacher_quiz_attempts(quiz_id,created_at DESC)`);
     const previousQuestions = [
       ["¿Quién fue uno de los principales representantes del condicionamiento operante?", ["Sigmund Freud", "Jean Piaget", "B. F. Skinner", "Iván Pávlov"], 2],
       ["¿Cuál es el objetivo principal del condicionamiento operante?", ["Analizar las emociones", "Modificar conductas mediante sus consecuencias", "Desarrollar la memoria", "Eliminar todas las emociones"], 1],
