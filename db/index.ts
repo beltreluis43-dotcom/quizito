@@ -28,6 +28,28 @@ export function ensureSchema() {
     await pool.query(
       `CREATE TABLE IF NOT EXISTS submissions (id SERIAL PRIMARY KEY,student_name TEXT NOT NULL,score INTEGER NOT NULL,total INTEGER NOT NULL,answers_json JSONB NOT NULL,created_at TIMESTAMPTZ NOT NULL DEFAULT NOW())`,
     );
+    await pool.query(
+      `CREATE TABLE IF NOT EXISTS teacher_accounts (
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE,
+        password_hash TEXT NOT NULL,
+        password_salt TEXT NOT NULL,
+        plan TEXT NOT NULL DEFAULT 'free',
+        subscription_id TEXT,
+        subscription_status TEXT NOT NULL DEFAULT 'inactive',
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )`,
+    );
+    await pool.query(
+      `CREATE TABLE IF NOT EXISTS teacher_sessions (
+        token_hash TEXT PRIMARY KEY,
+        teacher_id INTEGER NOT NULL REFERENCES teacher_accounts(id) ON DELETE CASCADE,
+        expires_at TIMESTAMPTZ NOT NULL,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )`,
+    );
+    await pool.query(`CREATE INDEX IF NOT EXISTS teacher_sessions_expiry ON teacher_sessions(expires_at)`);
     const previousQuestions = [
       ["¿Quién fue uno de los principales representantes del condicionamiento operante?", ["Sigmund Freud", "Jean Piaget", "B. F. Skinner", "Iván Pávlov"], 2],
       ["¿Cuál es el objetivo principal del condicionamiento operante?", ["Analizar las emociones", "Modificar conductas mediante sus consecuencias", "Desarrollar la memoria", "Eliminar todas las emociones"], 1],
