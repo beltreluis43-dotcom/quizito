@@ -12,6 +12,7 @@ import {
   Trash2,
   Trophy,
   Users,
+  Crown,
 } from "lucide-react";
 type Question = {
   id: number;
@@ -294,6 +295,7 @@ function Header(p: {
           Quizito
         </button>
         <div className="flex gap-2">
+          <a href="/premium" className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 px-3 font-black text-slate-950 shadow-lg shadow-amber-500/20"><Crown size={17}/><span className="hidden sm:inline">Premium</span></a>
           <button
             onClick={p.toggle}
             className="grid h-10 w-10 place-items-center rounded-xl border bg-slate-50"
