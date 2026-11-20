@@ -295,6 +295,7 @@ function Header(p: {
           Quizito
         </button>
         <div className="flex gap-2">
+          <a href="/panel" className="hidden items-center rounded-xl border bg-white px-3 font-bold text-slate-700 sm:flex">Mi panel</a>
           <a href="/premium" className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 px-3 font-black text-slate-950 shadow-lg shadow-amber-500/20"><Crown size={17}/><span className="hidden sm:inline">Premium</span></a>
           <button
             onClick={p.toggle}
@@ -377,6 +378,7 @@ function Home(p: {
   busy: boolean;
   error: string;
 }) {
+  const [joinCode, setJoinCode] = useState("");
   return (
     <section className="mx-auto grid min-h-[calc(100vh-73px)] max-w-6xl items-center gap-10 px-5 py-12 lg:grid-cols-2">
       <div>
@@ -392,6 +394,12 @@ function Home(p: {
       </div>
       <div className="rounded-3xl border bg-white p-7 shadow-xl">
         <h2 className="text-2xl font-black">Entrar al quiz</h2>
+        <p className="mt-5 text-sm font-bold text-slate-500">¿Tu profesor te dio un código?</p>
+        <div className="mt-2 flex gap-2">
+          <input value={joinCode} onChange={(e)=>setJoinCode(e.target.value.replace(/\D/g,"").slice(0,6))} inputMode="numeric" placeholder="Código de 6 dígitos" className="min-w-0 flex-1 rounded-xl border p-4 font-black tracking-widest"/>
+          <button disabled={joinCode.length!==6} onClick={()=>location.href=`/jugar/${joinCode}`} className="rounded-xl bg-emerald-600 px-5 font-black text-white disabled:opacity-40">Entrar</button>
+        </div>
+        <div className="my-5 flex items-center gap-3 text-xs text-slate-400"><span className="h-px flex-1 bg-slate-200"/> QUIZ DE LUISITO <span className="h-px flex-1 bg-slate-200"/></div>
         <input
           value={p.name}
           onChange={(e) => p.setName(e.target.value)}
