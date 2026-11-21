@@ -382,14 +382,14 @@ function Home(p: {
   return (
     <section className="mx-auto grid min-h-[calc(100vh-73px)] max-w-6xl items-center gap-10 px-5 py-12 lg:grid-cols-2">
       <div>
-        <span className="rounded-full bg-indigo-100 px-4 py-2 font-bold text-indigo-700">
-          Quiz personalizado
+        <span className="rounded-full border border-indigo-200 bg-indigo-100/90 px-4 py-2 font-black text-indigo-700 shadow-sm">
+          ⚡ Aprende · Compite · Supera
         </span>
-        <h1 className="mt-6 text-6xl font-black">
-          El quiz de nuestra <span className="text-indigo-600">clase</span>
+        <h1 className="mt-6 text-6xl font-black leading-[.95]">
+          Convierte cada clase en una <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">experiencia inolvidable</span>
         </h1>
         <p className="mt-5 text-lg text-slate-600">
-          Preguntas aleatorias, imágenes y 25 segundos para responder.
+          Crea, comparte y descubre quién domina el reto. Preguntas aleatorias, imágenes y resultados al instante.
         </p>
       </div>
       <div className="rounded-3xl border bg-white p-7 shadow-xl">
