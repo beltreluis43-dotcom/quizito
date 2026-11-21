@@ -1,0 +1,4 @@
+import {randomBytes} from "node:crypto";
+import {ensureSchema,pool} from "../../../../../db";
+export async function POST(r:Request,c:{params:Promise<{code:string}>}){await ensureSchema();const code=(await c.params).code,b=await r.json() as{name?:string},name=b.name?.trim().slice(0,80)||"";if(name.length<2)return Response.json({error:"Escribe tu nombre."},{status:400});const {rows}=await pool.query(`SELECT id,status FROM teacher_quizzes WHERE join_code=$1`,[code]);const q=rows[0];if(!q)return Response.json({error:"Código inválido."},{status:404});if(q.status==="live")return Response.json({error:"El quiz ya comenzó."},{status:409});const token=randomBytes(24).toString("hex");await pool.query(`INSERT INTO teacher_quiz_players(quiz_id,name,player_token) VALUES($1,$2,$3)`,[q.id,name,token]);return Response.json({token,status:q.status},{status:201})}
+
