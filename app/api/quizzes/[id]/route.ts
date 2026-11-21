@@ -26,7 +26,7 @@ export async function PUT(r:Request,c:{params:Promise<{id:string}>}){
  }
  const title=b.title?.trim().slice(0,100)||current.title;
  const premium=t.plan==="premium";
- const time=premium?Math.max(5,Math.min(180,Number(b.timeSeconds)||25)):25;
+ const time=Math.max(5,Math.min(180,Number(b.timeSeconds)||25));
  const limit=premium?Math.max(0,Math.min(200,Number(b.questionLimit)||0)):0;
  const {rows}=await pool.query(`UPDATE teacher_quizzes SET title=$1,time_seconds=$2,question_limit=$3 WHERE id=$4 AND teacher_id=$5 RETURNING id,title,join_code AS "joinCode",time_seconds AS "timeSeconds",question_limit AS "questionLimit",status,started_at AS "startedAt"`,[title,time,limit,id,t.id]);
  return Response.json({quiz:rows[0]});
