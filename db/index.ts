@@ -56,8 +56,10 @@ export function ensureSchema() {
       title TEXT NOT NULL,
       join_code TEXT NOT NULL UNIQUE,
       time_seconds INTEGER NOT NULL DEFAULT 25,
+      question_limit INTEGER NOT NULL DEFAULT 0,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )`);
+    await pool.query(`ALTER TABLE teacher_quizzes ADD COLUMN IF NOT EXISTS question_limit INTEGER NOT NULL DEFAULT 0`);
     await pool.query(`CREATE TABLE IF NOT EXISTS teacher_quiz_questions (
       id SERIAL PRIMARY KEY,
       quiz_id INTEGER NOT NULL REFERENCES teacher_quizzes(id) ON DELETE CASCADE,
