@@ -399,43 +399,9 @@ function Home(p: {
           <input value={joinCode} onChange={(e)=>setJoinCode(e.target.value.replace(/\D/g,"").slice(0,6))} inputMode="numeric" placeholder="Código de 6 dígitos" className="min-w-0 flex-1 rounded-xl border p-4 font-black tracking-widest"/>
           <button disabled={joinCode.length!==6} onClick={()=>location.href=`/jugar/${joinCode}`} className="rounded-xl bg-emerald-600 px-5 font-black text-white disabled:opacity-40">Entrar</button>
         </div>
-        <div className="my-5 flex items-center gap-3 text-xs text-slate-400"><span className="h-px flex-1 bg-slate-200"/> QUIZ DE LUISITO <span className="h-px flex-1 bg-slate-200"/></div>
-        <input
-          value={p.name}
-          onChange={(e) => p.setName(e.target.value)}
-          placeholder="Tu nombre y apellido"
-          className="mt-6 w-full rounded-xl border p-4"
-        />
-        <button
-          disabled={!p.name.trim() || !p.count}
-          onClick={p.begin}
-          className="mt-4 w-full rounded-xl bg-indigo-600 p-4 font-bold text-white disabled:opacity-40"
-        >
-          {p.count
-            ? `Comenzar · ${p.count} preguntas`
-            : "Sin preguntas todavía"}
-        </button>
-        <div className="my-6 flex items-center gap-3 text-xs text-slate-400">
-          <span className="h-px flex-1 bg-slate-200" /> PROFESOR{" "}
-          <span className="h-px flex-1 bg-slate-200" />
-        </div>
-        <div className="flex gap-2">
-          <input
-            value={p.pin}
-            onChange={(e) => p.setPin(e.target.value)}
-            type="password"
-            placeholder="PIN del profesor"
-            className="min-w-0 flex-1 rounded-xl border p-3"
-          />
-          <button
-            onClick={p.login}
-            disabled={p.busy || !p.pin}
-            className="rounded-xl bg-slate-900 px-4 text-white"
-          >
-            <LockKeyhole />
-          </button>
-        </div>
-        {p.error && <p className="mt-3 text-rose-600">{p.error}</p>}
+        <p className="mt-4 text-center text-sm text-slate-500">Primero escribe el código. En la siguiente pantalla pondrás tu nombre y esperarás a que el profesor inicie.</p>
+        <div className="my-6 flex items-center gap-3 text-xs font-bold text-slate-400"><span className="h-px flex-1 bg-slate-200"/> ¿ERES PROFESOR? <span className="h-px flex-1 bg-slate-200"/></div>
+        <a href="/panel" className="flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 p-4 font-black text-white"><LockKeyhole size={19}/>Abrir panel del profesor</a>
       </div>
     </section>
   );
